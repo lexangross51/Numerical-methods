@@ -142,7 +142,13 @@
     <ClInclude Include="snu.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="snu.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="initApprox.txt" />
+    <Text Include="params.txt" />
+    <Text Include="result.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

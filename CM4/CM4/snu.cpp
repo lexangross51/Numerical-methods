@@ -1,12 +1,16 @@
 ﻿#include "snu.h"
 #include <algorithm>
+#include <iomanip>
+
+using std::setw;
+using std::setprecision;
+using std::left;
 
 // Конструктор
 snu::snu(const std::string directory)
 {
-	n = m = maxIter = eps1 = eps2 = 0;
-	beta = 1;
-	currNormF = prevNormF = 0;
+	n = m = maxIter = eps1 = eps2 = beta = 0;
+	normF = currNormF = prevNormF = 0;
 	std::ifstream params(directory + "params.txt");
 
 	if (params.is_open())
@@ -17,8 +21,12 @@ snu::snu(const std::string directory)
 		x.resize(n);
 		F.resize(m);
 		A.resize(m);
+		deltaX.resize(n, 0);
 		for (size_t i = 0; i < m; i++)
 			A[i].resize(n);
+
+		if (m > n)
+			minF.resize(m - n);
 	}
 
 	std::ifstream initApprox(directory + "initApprox.txt");
@@ -27,18 +35,6 @@ snu::snu(const std::string directory)
 		for (size_t i = 0; i < n; i++)
 			initApprox >> x[i];
 		initApprox.close();
-	}
-}
-
-// Записать результат в файл
-void snu::writeToFile(const std::string file)
-{
-	std::ofstream out(file);
-	if (out.is_open())
-	{
-		for (size_t i = 0; i < x.size(); i++)
-			out << x[i] << std::endl;
-		out.close();
 	}
 }
 
@@ -52,47 +48,249 @@ real snu::norm(Vector& v)
 }
 
 // Посчитать значение каждой из функций
-real snu::f(size_t funcNumber)
+real snu::f(tests test, size_t funcNumber)
 {
-	switch (funcNumber)
+	switch (test)
 	{
-	case 0:
-		return x[0] * x[0] + x[1] * x[1] - 1;
-	case 1:
-		return (x[0] - 2) * (x[0] - 2) + x[1] * x[1] - 1;
+	case tests::TEST1:
+	{
+		switch (funcNumber)
+		{
+		case 0:
+			return (x[0] + 2) * (x[0] + 2) + x[1] * x[1] - 1;
+		case 1:
+			return (x[0] - 2) * (x[0] - 2) + x[1] * x[1] - 1;
+		}
 	}
+
+	case tests::TEST2:
+	{
+		switch (funcNumber)
+		{
+		case 0:
+			return x[0] * x[0] + x[1] * x[1] - 1;
+		case 1:
+			return (x[0] - 2) * (x[0] - 2) + x[1] * x[1] - 1;
+		}
+	}
+
+	case tests::TEST3:
+	{
+		switch (funcNumber)
+		{
+		case 0:
+			return (x[0] - 1) * (x[0] - 1) + x[1] * x[1] - 1;
+		case 1:
+			return (x[0] - 2) * (x[0] - 2) + x[1] * x[1] - 1;
+		}
+	}
+
+	case tests::TEST4:
+	{
+		switch (funcNumber)
+		{
+		case 0:
+			return x[0] * x[0] + x[1] * x[1] - 1;
+		case 1:
+			return (x[0] - 2) * (x[0] - 2) + x[1] * x[1] - 1;
+		case 2:
+			return x[0] - x[1] - 1;
+		}
+	}
+
+	case tests::TEST5:
+	{
+		switch (funcNumber)
+		{
+		case 0:
+			return x[0] - x[1] + 1;
+		case 1:
+			return x[0] + x[1];
+		case 2:
+			return x[0] - 1;
+		}
+	}
+
+	case tests::TEST6:
+	{
+		switch (funcNumber)
+		{
+		case 0:
+			return sin(x[0]) - x[1];
+		case 1:
+			return x[0] - x[1];
+		}
+	}
+	}	
 }
 
 // Получить вектор правой части
-void snu::f()
+void snu::f(tests test)
 {
 	for (size_t i = 0; i < m; i++)
-		F[i] = -f(i);
+		F[i] = -f(test, i);
 }
 
 // Производная функции
 // funcNumber - номер функции, которую будем дифференцировать
 // varNumber - номер переменной, по которой будем дифференцировать
-real snu::df(size_t funcNumber, size_t varNumber)
+real snu::df(tests test, size_t funcNumber, size_t varNumber)
 {
-	switch (funcNumber)
+	switch(test)
 	{
-	case 0:
-		switch (varNumber)
+	case tests::TEST1:
+	{
+		switch (funcNumber)
 		{
 		case 0:
-			return 2 * x[0];
+			switch (varNumber)
+			{
+			case 0:
+				return 2 * (x[0] + 2);
+			case 1:
+				return 2 * x[1];
+			}
 		case 1:
-			return 2 * x[1];
+			switch (varNumber)
+			{
+			case 0:
+				return 2 * (x[0] - 2);
+			case 1:
+				return 2 * x[1];
+			}
 		}
-	case 1:
-		switch (varNumber)
+	}
+
+	case tests::TEST2:
+	{
+		switch (funcNumber)
 		{
 		case 0:
-			return 2 * (x[0] - 2);
+			switch (varNumber)
+			{
+			case 0:
+				return 2 * x[0];
+			case 1:
+				return 2 * x[1];
+			}
 		case 1:
-			return 2 * x[1];
+			switch (varNumber)
+			{
+			case 0:
+				return 2 * (x[0] - 2);
+			case 1:
+				return 2 * x[1];
+			}
 		}
+	}
+
+	case tests::TEST3:
+	{
+		switch (funcNumber)
+		{
+		case 0:
+			switch (varNumber)
+			{
+			case 0:
+				return 2 * (x[0] - 1);
+			case 1:
+				return 2 * x[1];
+			}
+		case 1:
+			switch (varNumber)
+			{
+			case 0:
+				return 2 * (x[0] - 2);
+			case 1:
+				return 2 * x[1];
+			}
+		}
+	}
+	
+	case tests::TEST4:
+	{
+		switch (funcNumber)
+		{
+		case 0:
+			switch (varNumber)
+			{
+			case 0:
+				return 2 * x[0];
+			case 1:
+				return 2 * x[1];
+			}
+		case 1:
+			switch (varNumber)
+			{
+			case 0:
+				return 2 * (x[0] - 2);
+			case 1:
+				return 2 * x[1];
+			}
+		case 2:
+			switch (varNumber)
+			{
+			case 0:
+				return 1;
+			case 1:
+				return -1;
+			}
+		}
+	}
+
+	case tests::TEST5:
+	{
+		switch (funcNumber)
+		{
+		case 0:
+			switch (varNumber)
+			{
+			case 0:
+				return 1;
+			case 1:
+				return -1;
+			}
+		case 1:
+			switch (varNumber)
+			{
+			case 0:
+				return 1;
+			case 1:
+				return 1;
+			}
+		case 2:
+			switch (varNumber)
+			{
+			case 0:
+				return 1;
+			case 1:
+				return 0;
+			}
+		}
+	}
+
+	case tests::TEST6:
+	{
+		switch (funcNumber)
+		{
+		case 0:
+			switch (varNumber)
+			{
+			case 0:
+				return cos(x[0]);
+			case 1:
+				return -1;
+			}
+		case 1:
+			switch (varNumber)
+			{
+			case 0:
+				return 1;
+			case 1:
+				return -1;
+			}
+		}
+	}
 	}
 }
 
@@ -112,18 +310,8 @@ void snu::findMinF()
 	std::sort(minF.begin(), minF.end());
 }
 
-// Проверяем, есть ли уравнени с номером equationNum
-// в списке уравнений, которые нужно исключить
-bool snu::isInMinF(size_t equationNum)
-{
-	for (size_t i = 0; i < minF.size(); i++)
-		if (equationNum == i)
-			return true;
-	return false;
-}
-
 // Построить матрицу Якоби
-void snu::createJacobiMatrix()
+void snu::createJacobiMatrix(tests test)
 {
 	// Если число уравнений совпадает с числом неизвестных 
 	if (m == n)
@@ -131,118 +319,129 @@ void snu::createJacobiMatrix()
 		// то заполняем матрицу Якоби
 		for (size_t i = 0; i < m; i++)
 			for (size_t j = 0; j < n; j++)
-				A[i][j] = df(i, j);
+				A[i][j] = df(test, i, j);
 	}
 	// Иначе нужно исключить (m - n) уравнений с минимальными |F|
 	else
-		for (size_t l = 0, i = 0; l < m; l++)
-			if (!isInMinF(l))
+	{
+		size_t ii = 0, k = 0;
+		for (size_t i = 0; i < m; i++)
+		{
+			if (i != minF[k])
 			{
 				for (size_t j = 0; j < n; j++)
-					A[i][j] = df(i, j);
-				F[i++] = F[l];
+					A[ii][j] = df(test, i, j);
+				F[ii++] = F[i];
 			}
+			else
+				k = k + 1 < m - n ? k + 1 : k;
+		}
+	}
 }
 
 // Метод Гаусса
 void snu::gauss()
 {	
-	deltaX.resize(n);
-	real verySmall = 1e-10;
+	real verySmall = 1e-15;
+	real max = 0;
 
-	for (size_t i = 0; i < n; i++)
+	for (size_t k = 0; k < n; k++)
 	{
-		// Ищем максимальный элемент в столбце
-		size_t max = i;
-		for (size_t j = i + 1; j < n; j++)
-			if (fabs(A[j][i]) > fabs(A[max][i]))
-				max = j;
+		// Находим строку с максимальным элементом
+		max = abs(A[k][k]);
+		size_t ind = k;
+		for (size_t i = k + 1; i < n; i++)
+			if (abs(A[i][k]) > max)
+			{
+				max = abs(A[i][k]);
+				ind = i;
+			}
 
-		// Меняем текущую строку со строкой, в которой
+		// Меняем местами текущую строку со строкой, в которой
 		// находится максимальный элемент
-		for (size_t j = i; j < n; j++)
-			std::swap(A[i][j], A[max][j]);
-		std::swap(F[i], F[max]);
+		std::swap(A[k], A[ind]);
+		std::swap(F[k], F[ind]);
 
-		// Вычитаем из всех строк, расположенных ниже
-		// текущей, строку с максимальным элементом,
-		// умноженную на вычисленный коэффициент.
-		// То же самое делаем для вектора
-		for (size_t j = i + 1; j < n; j++)
+		// Нормализуем уравнения
+		for (size_t i = k; i < n; i++)
 		{
-			if (abs(A[i][i]) < verySmall)
-				throw snu::exceptions::VERY_SMALL_DIAG;
+			real m = A[i][k];
+			if (abs(m) < verySmall)
+				throw exceptions::VERY_SMALL_DIAG;
 
-			real m = A[j][i] / A[i][i];
-			F[j] -= m * F[i];
-			for (size_t k = i; k < n; k++)
-				A[j][k] -= m * A[i][k];
+			for (size_t j = 0; j < n; j++)
+				A[i][j] /= m;
+			F[i] /= m;
+
+			if (i != k)
+			{
+				for (size_t j = 0; j < n; j++)
+					A[i][j] -= A[k][j];
+				F[i] -= F[k];
+			}
 		}
-
-		if (abs(A[i][i]) < verySmall)
-			throw snu::exceptions::VERY_SMALL_DIAG;
-
-		real m = A[i][i];
-		for (size_t j = i; j < n; j++)
-			A[i][j] /= m;
-		F[i] /= m;
 	}
 
 	// Обратный ход
-	for (int i = n - 1; i >= 0; i--)
+	for (int k = n - 1; k >= 0; k--)
 	{
-		real prod = F[i];
-		for (int j = n - 1; j >= i; j--)
-			prod -= A[i][j] * deltaX[j];
-
-		if (abs(A[i][i]) < verySmall)
-			throw snu::exceptions::VERY_SMALL_DIAG;
-
-		prod /= A[i][i];
-		deltaX[i] = prod;
+		deltaX[k] = F[k];
+		for (size_t i = 0; i < k; i++)
+			F[i] = F[i] - A[i][k] * deltaX[k];
 	}
 }
 
 // Ищем x(k+1)
-void snu::calc_xk1()
+void snu::calc_xk1(tests test)
 {
 	beta = 1;
 	prevX = x;
 	for (size_t i = 0; i < x.size(); i++)
 		x[i] += deltaX[i];
 
-	f();
+	f(test);
 	currNormF = norm(F);
 	for (size_t v = 0; beta > eps1 && currNormF > prevNormF; v++)
 	{
-		beta /= 2;
+		beta /= 2.0;
 		x = prevX + beta * deltaX;
-		f();
+		f(test);
 		currNormF = norm(F);
 	}
 }
 
 // Метод Ньютона
-void snu::newton()
+void snu::newton(tests test)
 {
-	if (n > n)
-		throw snu::exceptions::CANT_SOLVE;
+	if (n > m)
+		throw exceptions::CANT_SOLVE;
 
-	f();
-
-	currNormF = norm(F);
-	prevNormF = currNormF;
-
-	for (size_t i = 0; i < maxIter && currNormF / prevNormF > eps2; i++)
+	FILE* table;
+	fopen_s(&table, "result.txt", "w");
+	if (table)
 	{
+		fprintf(table, "| ITERS |     BETA     |       X       |       Y       |     NORM     |\n");
+		fprintf(table, "|_____________________________________________________________________|\n");
+	}
+
+	f(test);
+	normF = norm(F);
+	currNormF = normF;
+
+	for (size_t i = 0; i < maxIter && currNormF / normF > eps2; i++)
+	{
+		prevNormF = norm(F);
 		if (m > n)
 			findMinF();
-		createJacobiMatrix();
+		createJacobiMatrix(test);
 
 		gauss();
 
-		calc_xk1();
-	}
+		calc_xk1(test);
 
-	writeToFile("result.txt");
+		if (table)
+			fprintf(table, "|%-7llu|%-14f|%-15f|%-15f|%-14f|\n", i, beta, x[0], x[1], prevNormF);
+	}
+	if (table)
+		fclose(table);
 }

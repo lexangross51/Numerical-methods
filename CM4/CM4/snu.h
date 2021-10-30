@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <iostream>
 
 typedef double real;
 typedef std::vector<real> Vector;
@@ -14,21 +15,28 @@ class snu
 public:
 	enum class exceptions { VERY_SMALL_DIAG, CANT_SOLVE };
 
+	// Тесты:
+	// TEST1 - две непересекающиеся окружности
+	// TEST2 - две окружности, пересекающиеся в одной точке
+	// TEST3 - две окружности, пересекающиеся в двух точках
+	// TEST4 - к окружностям добавлена прямая
+	// TEST5 - три попарно пересекающиеся прямые
+	// TEST6 - синусоида и прямая
+	enum class tests { TEST1, TEST2, TEST3, TEST4, TEST5, TEST6 };
+
 public:
 	snu(const std::string directory);
 
-	real f(size_t funcNumber);
-	real df(size_t funcNumber, size_t varNumber);
+	real f(tests test, size_t funcNumber);
+	real df(tests test, size_t funcNumber, size_t varNumber);
 
-	void f();
-	void createJacobiMatrix();
+	void f(tests test);
+	void createJacobiMatrix(tests test);
 
 	void gauss();
-	void newton();
+	void newton(tests test);
 
-	void calc_xk1();
-
-	void writeToFile(const std::string file);
+	void calc_xk1(tests test);
 
 private:
 	size_t m;		// Кол-во уравнений
@@ -38,6 +46,7 @@ private:
 	real eps2;		// Точность для невязки
 
 	Vector F;		// Вектор правой части
+	real normF;		// Норма вектора F до начала итераций 
 	real currNormF;	// Текущая норма F
 	real prevNormF;	// Предыдущая норма F
 	Vector x;		// Вектор неизвестных
@@ -52,11 +61,9 @@ private:
 	real norm(Vector &v);
 
 	void findMinF();
-
-	bool isInMinF(size_t equationNum);
 };
 
-inline Vector operator +(const Vector& a, const Vector& b)
+inline Vector operator+(const Vector& a, const Vector& b)
 {
 	Vector res = a;
 	for (size_t i = 0; i < res.size(); i++)
@@ -64,7 +71,7 @@ inline Vector operator +(const Vector& a, const Vector& b)
 	return res;
 }
 
-inline Vector operator *(const real& a, const Vector& b)
+inline Vector operator*(const real& a, const Vector& b)
 {
 	Vector res = b;
 	for (size_t i = 0; i < res.size(); i++)
