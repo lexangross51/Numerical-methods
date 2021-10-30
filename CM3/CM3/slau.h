@@ -1,4 +1,4 @@
-#ifndef SLAU_H
+п»ї#ifndef SLAU_H
 #define SLAU_H
 
 #include <string>
@@ -45,34 +45,34 @@ public:
     void createHilbertMatrix(size_t size);
 
 private:
-    size_t n;					// Размер матрицы
-    size_t maxIter;				// Макс число итераций
-    real eps;					// Точность решения
-    std::vector<size_t> ig;		// Указатели на строки
-    std::vector<size_t> jg;		// Указатели на столбцы
-    std::vector<real> ggl;		// Нижний треугольник
-    std::vector<real> ggu;		// Верхний треугольник
-    std::vector<real> di;		// Главная диагональ
-    std::vector<real> F;		// Вектор правой части
-    real normF;                 // Норма вектора правой части
-    std::vector<real> x;		// Вектор неизвестных
+    size_t n;					// Р Р°Р·РјРµСЂ РјР°С‚СЂРёС†С‹
+    size_t maxIter;				// РњР°РєСЃ С‡РёСЃР»Рѕ РёС‚РµСЂР°С†РёР№
+    real eps;					// РўРѕС‡РЅРѕСЃС‚СЊ СЂРµС€РµРЅРёСЏ
+    std::vector<size_t> ig;		// РЈРєР°Р·Р°С‚РµР»Рё РЅР° СЃС‚СЂРѕРєРё
+    std::vector<size_t> jg;		// РЈРєР°Р·Р°С‚РµР»Рё РЅР° СЃС‚РѕР»Р±С†С‹
+    std::vector<real> ggl;		// РќРёР¶РЅРёР№ С‚СЂРµСѓРіРѕР»СЊРЅРёРє
+    std::vector<real> ggu;		// Р’РµСЂС…РЅРёР№ С‚СЂРµСѓРіРѕР»СЊРЅРёРє
+    std::vector<real> di;		// Р“Р»Р°РІРЅР°СЏ РґРёР°РіРѕРЅР°Р»СЊ
+    std::vector<real> F;		// Р’РµРєС‚РѕСЂ РїСЂР°РІРѕР№ С‡Р°СЃС‚Рё
+    real normF;                 // РќРѕСЂРјР° РІРµРєС‚РѕСЂР° РїСЂР°РІРѕР№ С‡Р°СЃС‚Рё
+    std::vector<real> x;		// Р’РµРєС‚РѕСЂ РЅРµРёР·РІРµСЃС‚РЅС‹С…
 
-    std::vector<real> gglf;		// Нижний треугольник разложенной матрицы
-    std::vector<real> gguf;		// Верхний треугольник разложенной матрицы
-    std::vector<real> dif;		// Главная диагональ разложенной матрицы
+    std::vector<real> gglf;		// РќРёР¶РЅРёР№ С‚СЂРµСѓРіРѕР»СЊРЅРёРє СЂР°Р·Р»РѕР¶РµРЅРЅРѕР№ РјР°С‚СЂРёС†С‹
+    std::vector<real> gguf;		// Р’РµСЂС…РЅРёР№ С‚СЂРµСѓРіРѕР»СЊРЅРёРє СЂР°Р·Р»РѕР¶РµРЅРЅРѕР№ РјР°С‚СЂРёС†С‹
+    std::vector<real> dif;		// Р“Р»Р°РІРЅР°СЏ РґРёР°РіРѕРЅР°Р»СЊ СЂР°Р·Р»РѕР¶РµРЅРЅРѕР№ РјР°С‚СЂРёС†С‹
 
-    std::vector<real> r;        // Невязка 
-    std::vector<real> z;        // Сопряженное направление
-    std::vector<real> p;        // Доп. массив
+    std::vector<real> r;        // РќРµРІСЏР·РєР° 
+    std::vector<real> z;        // РЎРѕРїСЂСЏР¶РµРЅРЅРѕРµ РЅР°РїСЂР°РІР»РµРЅРёРµ
+    std::vector<real> p;        // Р”РѕРї. РјР°СЃСЃРёРІ
 
     std::vector<real> generateVector(size_t size);
     
     void toSparse();
 
-    std::vector<std::vector<real>> mat; // Матрица в плотном формате
+    std::vector<std::vector<real>> mat; // РњР°С‚СЂРёС†Р° РІ РїР»РѕС‚РЅРѕРј С„РѕСЂРјР°С‚Рµ
 };
 
-// Перегрузка оператора сложения векторов
+// РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° СЃР»РѕР¶РµРЅРёСЏ РІРµРєС‚РѕСЂРѕРІ
 inline std::vector<real> operator+(const std::vector<real>& a, const std::vector<real>& b)
 {
     std::vector<real> res = a;
@@ -81,7 +81,7 @@ inline std::vector<real> operator+(const std::vector<real>& a, const std::vector
     return res;
 }
 
-    // Перегрузка оператора вычитания векторов
+    // РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° РІС‹С‡РёС‚Р°РЅРёСЏ РІРµРєС‚РѕСЂРѕРІ
     inline std::vector<real> operator-(const std::vector<real>& a, const std::vector<real>& b)
     {
         std::vector<real> res = a;
@@ -90,7 +90,7 @@ inline std::vector<real> operator+(const std::vector<real>& a, const std::vector
         return res;
     }
 
-    // Перегрузка оператора умножения векторов (скалярное произведение)
+    // РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° СѓРјРЅРѕР¶РµРЅРёСЏ РІРµРєС‚РѕСЂРѕРІ (СЃРєР°Р»СЏСЂРЅРѕРµ РїСЂРѕРёР·РІРµРґРµРЅРёРµ)
     inline real operator*(const std::vector<real>& a, const std::vector<real>& b)
     {
         real scalar = 0.0;
@@ -99,7 +99,7 @@ inline std::vector<real> operator+(const std::vector<real>& a, const std::vector
         return scalar;
     }
 
-    // Перегрузка оператора умножения вектора на константу
+    // РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° СѓРјРЅРѕР¶РµРЅРёСЏ РІРµРєС‚РѕСЂР° РЅР° РєРѕРЅСЃС‚Р°РЅС‚Сѓ
     inline std::vector<real> operator*(real c, const std::vector<real>& a)
     {
         std::vector<real> res = a;

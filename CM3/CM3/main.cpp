@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <chrono>
 #include "slau.h"
 
@@ -6,27 +6,25 @@ using namespace std;
 using namespace chrono;
 
 const string dense = "dense.txt";
-const string directory = "C:\\Users\\lexan\\OneDrive\\Рабочий стол\\НГТУ\\3 курс\\Численные методы\\CM3\\CM3\\";
+const string directory = "C:\\Users\\lexan\\OneDrive\\Р Р°Р±РѕС‡РёР№ СЃС‚РѕР»\\РќР“РўРЈ\\3 РєСѓСЂСЃ\\Р§РёСЃР»РµРЅРЅС‹Рµ РјРµС‚РѕРґС‹\\CM3\\CM3\\";
 
 int main()
 {
-	//slau s(directory);
-	size_t itersCount = 0;	// Получившееся число итераций 
-	real residual = 0;		// Относительная невязка
+	slau s(directory);
+	size_t itersCount = 0;	// РџРѕР»СѓС‡РёРІС€РµРµСЃСЏ С‡РёСЃР»Рѕ РёС‚РµСЂР°С†РёР№ 
+	real residual = 0;		// РћС‚РЅРѕСЃРёС‚РµР»СЊРЅР°СЏ РЅРµРІСЏР·РєР°
 	
-	//size_t size = 0;		// Размер матрицы Гильберта
+	//size_t size = 0;		// Р Р°Р·РјРµСЂ РјР°С‚СЂРёС†С‹ Р“РёР»СЊР±РµСЂС‚Р°
 
-
-
-	for (size_t size = 1; size < 14; size++)
+	//for (size_t size = 1; size < 14; size++)
 	{
-		slau s(size, 10000, 1e-15, 0);
-		s.createHilbertMatrix(size);
+		//slau s(size, 10000, 1e-15, 0);
+		//s.createHilbertMatrix(size);
 		auto start = high_resolution_clock::now();
-		//s.MSGLU(&residual, &itersCount);
+		s.MSGLU(&residual, &itersCount);
 		//s.MSGdiag(&residual, &itersCount);
 		//s.LOS(&residual, &itersCount);
-		s.LOSLU(&residual, &itersCount);
+		//s.LOSLU(&residual, &itersCount);
 		//s.LOSdiag(&residual, &itersCount);
 		auto end = high_resolution_clock::now();
 		auto ms = duration_cast<std::chrono::microseconds>(end - start);
