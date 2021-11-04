@@ -13,7 +13,7 @@ int main()
 	try {
 		snu s(directory);
 
-		s.newton(snu::tests::TEST2);
+		s.newton(snu::tests::TEST6);
 
 		return 0;
 	}

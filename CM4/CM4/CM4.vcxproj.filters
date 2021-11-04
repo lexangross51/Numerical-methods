@@ -37,5 +37,8 @@
     <Text Include="result.txt">
       <Filter>Исходные файлы</Filter>
     </Text>
+    <Text Include="coords.txt">
+      <Filter>Исходные файлы</Filter>
+    </Text>
   </ItemGroup>
 </Project>

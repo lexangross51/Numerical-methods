@@ -107,7 +107,7 @@ real snu::f(tests test, size_t funcNumber)
 		case 1:
 			return x[0] + x[1];
 		case 2:
-			return x[0] - 1;
+			return 0.5 * x[0] + x[1];
 		}
 	}
 
@@ -262,9 +262,9 @@ real snu::df(tests test, size_t funcNumber, size_t varNumber)
 			switch (varNumber)
 			{
 			case 0:
-				return 1;
+				return 0.5;
 			case 1:
-				return 0;
+				return 1;
 			}
 		}
 	}
@@ -416,6 +416,8 @@ void snu::newton(tests test)
 	if (n > m)
 		throw exceptions::CANT_SOLVE;
 
+	std::ofstream coords("coords.txt");
+
 	FILE* table;
 	fopen_s(&table, "result.txt", "w");
 	if (table)
@@ -428,7 +430,11 @@ void snu::newton(tests test)
 	normF = norm(F);
 	currNormF = normF;
 
-	for (size_t i = 0; i < maxIter && currNormF / normF > eps2; i++)
+	if (table)
+		fprintf(table, "|%-7llu|%-14f|%-15f|%-15f|%-14f|\n", size_t(0), beta, x[0], x[1], currNormF);
+
+	coords << x[0] << " " << x[1] << std::endl;
+	for (size_t i = 1; i < maxIter && currNormF / normF > eps2; i++)
 	{
 		prevNormF = norm(F);
 		if (m > n)
@@ -441,7 +447,10 @@ void snu::newton(tests test)
 
 		if (table)
 			fprintf(table, "|%-7llu|%-14f|%-15f|%-15f|%-14f|\n", i, beta, x[0], x[1], prevNormF);
+		coords << x[0] << " " << x[1] << std::endl;
 	}
 	if (table)
 		fclose(table);
+
+	coords.close();
 }

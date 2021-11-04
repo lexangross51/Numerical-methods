@@ -146,6 +146,7 @@
     <ClCompile Include="snu.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="coords.txt" />
     <Text Include="initApprox.txt" />
     <Text Include="params.txt" />
     <Text Include="result.txt" />
