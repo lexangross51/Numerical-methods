@@ -8,31 +8,31 @@ const string directory = "C:\\Users\\lexan\\OneDrive\\Рабочий стол\\НГТУ\\3 курс
 
 int main()
 {
-	setlocale(LC_ALL, "");
+    setlocale(LC_ALL, "");
 
-	try {
-		snu s(directory);
+    try {
+        snu s(directory);
 
-		s.newton(snu::tests::TEST6);
+        s.newton(snu::tests::TEST6);
 
-		return 0;
-	}
-	catch (snu::exceptions error)
-	{
-		switch (error)
-		{
-			case snu::exceptions::VERY_SMALL_DIAG:
-			{
-				cout << "Нельзя решить СЛАУ методом Гаусса. Диагональынй элемент равен 0." << endl;
-				break;
-			}
-			case snu::exceptions::CANT_SOLVE:
-			{
-				cout << "Невозможно решить СЛАУ. Число неизвестных больше числа уравнений." << endl;
-				break;
-			}
-		}
-	}
+        return 0;
+    }
+    catch (snu::exceptions error)
+    {
+        switch (error)
+        {
+            case snu::exceptions::VERY_SMALL_DIAG:
+            {
+                cout << "Нельзя решить СЛАУ методом Гаусса. Диагональынй элемент равен 0." << endl;
+                break;
+            }
+            case snu::exceptions::CANT_SOLVE:
+            {
+                cout << "Невозможно решить СЛАУ. Число неизвестных больше числа уравнений." << endl;
+                break;
+            }
+        }
+    }
 
-	return 0;
+    return 0;
 }
