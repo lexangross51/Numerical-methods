@@ -10,7 +10,7 @@ using std::left;
 snu::snu(const std::string directory)
 {
     n = m = maxIter = eps1 = eps2 = beta = 0;
-    normF = currNormF = prevNormF = 0;
+    normF = currNormF = prevNormF = h = 0;
     std::ifstream params(directory + "params.txt");
 
     if (params.is_open())
@@ -124,6 +124,83 @@ real snu::f(tests test, size_t funcNumber)
     }	
 }
 
+// Посчитать значение каждой из функций
+real snu::f(tests test, size_t funcNumber, real hx, real hy)
+{
+    switch (test)
+    {
+    case tests::TEST1:
+    {
+        switch (funcNumber)
+        {
+        case 0:
+            return (x[0] + hx + 2) * (x[0] + hx + 2) + (x[1] + hy) * (x[1] + hy) - 1;
+        case 1:
+            return (x[0] + hx - 2) * (x[0] + hx - 2) + (x[1] + hy) * (x[1] + hy) - 1;
+        }
+    }
+
+    case tests::TEST2:
+    {
+        switch (funcNumber)
+        {
+        case 0:
+            return (x[0] + hx) * (x[0] + hx) + (x[1] + hy) * (x[1] + hy) - 1;
+        case 1:
+            return (x[0] + hx - 2) * (x[0] + hx - 2) + (x[1] + hy) * (x[1] + hy) - 1;
+        }
+    }
+
+    case tests::TEST3:
+    {
+        switch (funcNumber)
+        {
+        case 0:
+            return (x[0] + hx - 1) * (x[0] + hx - 1) + (x[1] + hy) * (x[1] + hy) - 1;
+        case 1:
+            return (x[0] + hx - 2) * (x[0] + hx - 2) + (x[1] + hy) * (x[1] + hy) - 1;
+        }
+    }
+
+    case tests::TEST4:
+    {
+        switch (funcNumber)
+        {
+        case 0:
+            return (x[0] + hx) * (x[0] + hx) + (x[1] + hy) * (x[1] + hy) - 1;
+        case 1:
+            return (x[0] + hx - 2) * (x[0] + hx - 2) + (x[1] + hy) * (x[1] + hy) - 1;
+        case 2:
+            return (x[0] + hx) - (x[1] + hy) - 1;
+        }
+    }
+
+    case tests::TEST5:
+    {
+        switch (funcNumber)
+        {
+        case 0:
+            return (x[0] + hx) - (x[1] + hy) + 1;
+        case 1:
+            return (x[0] + hx) + (x[1] + hy);
+        case 2:
+            return 0.5 * (x[0] + hx) + (x[1] + hy);
+        }
+    }
+
+    case tests::TEST6:
+    {
+        switch (funcNumber)
+        {
+        case 0:
+            return sin(x[0] + hx) - (x[1] + hy);
+        case 1:
+            return (x[0] + hx) - (x[1] + hy);
+        }
+    }
+    }
+}
+
 // Получить вектор правой части
 void snu::f(tests test)
 {
@@ -131,7 +208,7 @@ void snu::f(tests test)
         F[i] = -f(test, i);
 }
 
-// Производная функции
+// Производная функции, вычисленная аналитически
 // funcNumber - номер функции, которую будем дифференцировать
 // varNumber - номер переменной, по которой будем дифференцировать
 real snu::df(tests test, size_t funcNumber, size_t varNumber)
@@ -294,6 +371,170 @@ real snu::df(tests test, size_t funcNumber, size_t varNumber)
     }
 }
 
+// Производная функции, вычисленная численно
+// funcNumber - номер функции, которую будем дифференцировать
+// varNumber - номер переменной, по которой будем дифференцировать
+// h - шаг
+real snu::df(tests test, size_t funcNumber, size_t varNumber, real h)
+{
+    switch (test)
+    {
+    case tests::TEST1:
+    {
+        switch (funcNumber)
+        {
+        case 0:
+            switch (varNumber)
+            {
+            case 0:
+                return (f(tests::TEST1, funcNumber, h, 0) - f(tests::TEST1, funcNumber, -h, 0)) / h;
+            case 1:
+                return (f(tests::TEST1, funcNumber, 0, h) - f(tests::TEST1, funcNumber, 0, -h)) / h;
+            }
+        case 1:
+            switch (varNumber)
+            {
+            case 0:
+                return (f(tests::TEST1, funcNumber, h, 0) - f(tests::TEST1, funcNumber, -h, 0)) / h;
+            case 1:
+                return (f(tests::TEST1, funcNumber, 0, h) - f(tests::TEST1, funcNumber, 0, -h)) / h;
+            }
+        }
+    }
+
+    case tests::TEST2:
+    {
+        switch (funcNumber)
+        {
+        case 0:
+            switch (varNumber)
+            {
+            case 0:
+                return (f(tests::TEST2, funcNumber, h, 0) - f(tests::TEST2, funcNumber, -h, 0)) / h;
+            case 1:
+                return (f(tests::TEST2, funcNumber, 0, h) - f(tests::TEST2, funcNumber, 0, -h)) / h;
+            }
+        case 1:
+            switch (varNumber)
+            {
+            case 0:
+                return (f(tests::TEST2, funcNumber, h, 0) - f(tests::TEST2, funcNumber, -h, 0)) / h;
+            case 1:
+                return (f(tests::TEST2, funcNumber, 0, h) - f(tests::TEST2, funcNumber, 0, -h)) / h;
+            }
+        }
+    }
+
+    case tests::TEST3:
+    {
+        switch (funcNumber)
+        {
+        case 0:
+            switch (varNumber)
+            {
+            case 0:
+                return (f(tests::TEST3, funcNumber, h, 0) - f(tests::TEST3, funcNumber, -h, 0)) / h;
+            case 1:
+                return (f(tests::TEST3, funcNumber, 0, h) - f(tests::TEST3, funcNumber, 0, -h)) / h;
+            }
+        case 1:
+            switch (varNumber)
+            {
+            case 0:
+                return (f(tests::TEST3, funcNumber, h, 0) - f(tests::TEST3, funcNumber, -h, 0)) / h;
+            case 1:
+                return (f(tests::TEST3, funcNumber, 0, h) - f(tests::TEST3, funcNumber, 0, -h)) / h;
+            }
+        }
+    }
+
+    case tests::TEST4:
+    {
+        switch (funcNumber)
+        {
+        case 0:
+            switch (varNumber)
+            {
+            case 0:
+                return (f(tests::TEST4, funcNumber, h, 0) - f(tests::TEST4, funcNumber, -h, 0)) / h;
+            case 1:
+                return (f(tests::TEST4, funcNumber, 0, h) - f(tests::TEST4, funcNumber, 0, -h)) / h;
+            }
+        case 1:
+            switch (varNumber)
+            {
+            case 0:
+                return (f(tests::TEST4, funcNumber, h, 0) - f(tests::TEST4, funcNumber, -h, 0)) / h;
+            case 1:
+                return (f(tests::TEST4, funcNumber, 0, h) - f(tests::TEST4, funcNumber, 0, -h)) / h;
+            }
+        case 2:
+            switch (varNumber)
+            {
+            case 0:
+                return (f(tests::TEST4, funcNumber, h, 0) - f(tests::TEST4, funcNumber, -h, 0)) / h;
+            case 1:
+                return (f(tests::TEST4, funcNumber, 0, h) - f(tests::TEST4, funcNumber, 0, -h)) / h;
+            }
+        }
+    }
+
+    case tests::TEST5:
+    {
+        switch (funcNumber)
+        {
+        case 0:
+            switch (varNumber)
+            {
+            case 0:
+                return (f(tests::TEST4, funcNumber, h, 0) - f(tests::TEST4, funcNumber, -h, 0)) / h;
+            case 1:
+                return (f(tests::TEST4, funcNumber, 0, h) - f(tests::TEST4, funcNumber, 0, -h)) / h;
+            }
+        case 1:
+            switch (varNumber)
+            {
+            case 0:
+                return (f(tests::TEST4, funcNumber, h, 0) - f(tests::TEST4, funcNumber, -h, 0)) / h;
+            case 1:
+                return (f(tests::TEST4, funcNumber, 0, h) - f(tests::TEST4, funcNumber, 0, -h)) / h;
+            }
+        case 2:
+            switch (varNumber)
+            {
+            case 0:
+                return (f(tests::TEST4, funcNumber, h, 0) - f(tests::TEST4, funcNumber, -h, 0)) / h;
+            case 1:
+                return (f(tests::TEST4, funcNumber, 0, h) - f(tests::TEST4, funcNumber, 0, -h)) / h;
+            }
+        }
+    }
+
+    case tests::TEST6:
+    {
+        switch (funcNumber)
+        {
+        case 0:
+            switch (varNumber)
+            {
+            case 0:
+                return (f(tests::TEST3, funcNumber, h, 0) - f(tests::TEST3, funcNumber, -h, 0)) / h;
+            case 1:
+                return (f(tests::TEST3, funcNumber, 0, h) - f(tests::TEST3, funcNumber, 0, -h)) / h;
+            }
+        case 1:
+            switch (varNumber)
+            {
+            case 0:
+                return (f(tests::TEST3, funcNumber, h, 0) - f(tests::TEST3, funcNumber, -h, 0)) / h;
+            case 1:
+                return (f(tests::TEST3, funcNumber, 0, h) - f(tests::TEST3, funcNumber, 0, -h)) / h;
+            }
+        }
+    }
+    }
+}
+
 // Найти минимальные |F|
 void snu::findMinF()
 {
@@ -313,13 +554,15 @@ void snu::findMinF()
 // Построить матрицу Якоби
 void snu::createJacobiMatrix(tests test)
 {
+    h = 1e-5;
     // Если число уравнений совпадает с числом неизвестных 
     if (m == n)
     {
         // то заполняем матрицу Якоби
         for (size_t i = 0; i < m; i++)
             for (size_t j = 0; j < n; j++)
-                A[i][j] = df(test, i, j);
+                //A[i][j] = df(test, i, j);
+                A[i][j] = df(test, i, j, h);
     }
     // Иначе нужно исключить (m - n) уравнений с минимальными |F|
     else
@@ -330,7 +573,8 @@ void snu::createJacobiMatrix(tests test)
             if (i != minF[k])
             {
                 for (size_t j = 0; j < n; j++)
-                    A[ii][j] = df(test, i, j);
+                    //A[ii][j] = df(test, i, j);
+                    A[ii][j] = df(test, i, j, h);
                 F[ii++] = F[i];
             }
             else

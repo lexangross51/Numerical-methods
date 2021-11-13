@@ -28,7 +28,10 @@ public:
     snu(const std::string directory);
 
     real f(tests test, size_t funcNumber);
+    real f(tests test, size_t funcNumber, real hx, real hy);
+
     real df(tests test, size_t funcNumber, size_t varNumber);
+    real df(tests test, size_t funcNumber, size_t varNumber, real h);
 
     void f(tests test);
     void createJacobiMatrix(tests test);
@@ -52,7 +55,8 @@ private:
     Vector x;		// Вектор неизвестных
     Vector prevX;	// Предыдущее значение x
     Vector deltaX;	// Направление
-    real beta;		// Параметра бетта
+    real beta;		// Параметр бетта
+    real h;         // Шаг для численного дифференцирования
 
     Matrix A;		// Матрица Якоби
 
