@@ -13,7 +13,7 @@ int main()
     try {
         snu s(directory);
 
-        s.newton(snu::tests::TEST3);
+        s.newton(snu::tests::TEST5, snu::methods::SYMMETRIZATION);
 
         return 0;
     }

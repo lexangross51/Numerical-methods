@@ -24,22 +24,15 @@ public:
     // TEST6 - синусоида и прямая
     enum class tests { TEST1, TEST2, TEST3, TEST4, TEST5, TEST6 };
 
+    // Способ решить СЛАУ:
+    // FIND_MIN_F - найти и исключить (m - n) уравнений с min |F|
+    // SYMMETRIZATION - через симметризацию системыs
+    enum class methods { FIND_MIN_F, SYMMETRIZATION };
+
 public:
     snu(const std::string directory);
 
-    real f(tests test, size_t funcNumber);
-    real f(tests test, size_t funcNumber, real hx, real hy);
-
-    real df(tests test, size_t funcNumber, size_t varNumber);
-    real df(tests test, size_t funcNumber, size_t varNumber, real h);
-
-    void f(tests test);
-    void createJacobiMatrix(tests test);
-
-    void gauss();
-    void newton(tests test);
-
-    void calc_xk1(tests test);
+    void newton(tests test, methods method);
 
 private:
     size_t m;		// Кол-во уравнений
@@ -65,6 +58,20 @@ private:
     real norm(Vector &v);
 
     void findMinF();
+
+    void symmetrization();
+
+    real f(tests test, size_t funcNumber, real hx, real hy);
+
+    real df(tests test, size_t funcNumber, size_t varNumber);
+    real df(tests test, size_t funcNumber, size_t varNumber, real h);
+
+    void f(tests test);
+    void createJacobiMatrix(tests test, methods method);
+
+    void calc_xk1(tests test);
+
+    void gauss();
 };
 
 inline Vector operator+(const Vector& a, const Vector& b)
@@ -84,4 +91,3 @@ inline Vector operator*(const real& a, const Vector& b)
 }
 
 #endif
-
