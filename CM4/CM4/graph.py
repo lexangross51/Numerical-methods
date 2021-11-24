@@ -18,7 +18,7 @@ def test1():
   y2 = r2 * np.sin(theta)
 
   a = np.arange(-2, 2, 0.1, dtype = np.float64)
-  b = np.arange(-1, 2, 0.1, dtype = np.float64)
+  b = np.arange(-2, 2, 0.1, dtype = np.float64)
 
   xg, yg = np.meshgrid(a, b)
 
@@ -101,7 +101,7 @@ def test4():
 
   xg, yg = np.meshgrid(a, b)
 
-  z = (xg**2 + yg**2 - 1)**2 + ((xg - 2)**2 + yg**2 - 1)**2 + (xg - yg - 1)**2
+  z = (xg**2 + yg**2 - 1)**2 + ((xg - 2)**2 + yg**2 - 1)**2 + (yg - xg + 1)**2
 
   xval = np.linspace(0, 10, 20)
 
@@ -158,10 +158,10 @@ def main():
   		y.append(dcm(yc))
 
 
-  #x1, y1, x2, y2, xg, yg, z, xval = test3()
+  x1, y1, x2, y2, xg, yg, z, xval = test1()
   #x1, y1, x2, y2, xl, yl, xg, yg, z, xval = test4()
   #x1, y1, y2, y3, xg, yg, z, xval = test5()
-  x1, y1, x2, y2, xg, yg, z, xval = test6()
+  #x1, y1, x2, y2, xg, yg, z, xval = test6()
 
   fig, ax = plt.subplots()
   plt.grid()
