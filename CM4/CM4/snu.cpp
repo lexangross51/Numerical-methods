@@ -306,17 +306,17 @@ real snu::df(tests test, size_t funcNumber, size_t varNumber, real h)
             switch (varNumber)
             {
             case 0:
-                return (f(tests::TEST1, funcNumber, h, 0) - f(tests::TEST1, funcNumber, -h, 0)) / (2 * h);
+                return (f(tests::TEST1, funcNumber, h, 0) - f(tests::TEST1, funcNumber, 0, 0)) / (h);
             case 1:
-                return (f(tests::TEST1, funcNumber, 0, h) - f(tests::TEST1, funcNumber, 0, -h)) / (2 * h);
+                return (f(tests::TEST1, funcNumber, 0, h) - f(tests::TEST1, funcNumber, 0, 0)) / ( h);
             }
         case 1:
             switch (varNumber)
             {
             case 0:
-                return (f(tests::TEST1, funcNumber, h, 0) - f(tests::TEST1, funcNumber, -h, 0)) / (2 * h);
+                return (f(tests::TEST1, funcNumber, h, 0) - f(tests::TEST1, funcNumber, 0, 0)) / (h);
             case 1:
-                return (f(tests::TEST1, funcNumber, 0, h) - f(tests::TEST1, funcNumber, 0, -h)) / (2 * h);
+                return (f(tests::TEST1, funcNumber, 0, h) - f(tests::TEST1, funcNumber, 0, 0)) / (h);
             }
         }
     }
@@ -329,17 +329,17 @@ real snu::df(tests test, size_t funcNumber, size_t varNumber, real h)
             switch (varNumber)
             {
             case 0:
-                return (f(tests::TEST2, funcNumber, h, 0) - f(tests::TEST2, funcNumber, -h, 0)) / (2 * h);
+                return (f(tests::TEST2, funcNumber, h, 0) - f(tests::TEST2, funcNumber, 0, 0)) / (h);
             case 1:
-                return (f(tests::TEST2, funcNumber, 0, h) - f(tests::TEST2, funcNumber, 0, -h)) / (2 * h);
+                return (f(tests::TEST2, funcNumber, 0, h) - f(tests::TEST2, funcNumber, 0, 0)) / (h);
             }
         case 1:
             switch (varNumber)
             {
             case 0:
-                return (f(tests::TEST2, funcNumber, h, 0) - f(tests::TEST2, funcNumber, -h, 0)) / (2 * h);
+                return (f(tests::TEST2, funcNumber, h, 0) - f(tests::TEST2, funcNumber, 0, 0)) / (h);
             case 1:
-                return (f(tests::TEST2, funcNumber, 0, h) - f(tests::TEST2, funcNumber, 0, -h)) / (2 * h);
+                return (f(tests::TEST2, funcNumber, 0, h) - f(tests::TEST2, funcNumber, 0, 0)) / (h);
             }
         }
     }
@@ -352,17 +352,17 @@ real snu::df(tests test, size_t funcNumber, size_t varNumber, real h)
             switch (varNumber)
             {
             case 0:
-                return (f(tests::TEST3, funcNumber, h, 0) - f(tests::TEST3, funcNumber, -h, 0)) / (2 * h);
+                return (f(tests::TEST3, funcNumber, h, 0) - f(tests::TEST3, funcNumber, 0, 0)) / (h);
             case 1:
-                return (f(tests::TEST3, funcNumber, 0, h) - f(tests::TEST3, funcNumber, 0, -h)) / (2 * h);
+                return (f(tests::TEST3, funcNumber, 0, h) - f(tests::TEST3, funcNumber, 0, 0)) / (h);
             }
         case 1:
             switch (varNumber)
             {
             case 0:
-                return (f(tests::TEST3, funcNumber, h, 0) - f(tests::TEST3, funcNumber, -h, 0)) / (2 * h);
+                return (f(tests::TEST3, funcNumber, h, 0) - f(tests::TEST3, funcNumber, 0, 0)) / (h);
             case 1:
-                return (f(tests::TEST3, funcNumber, 0, h) - f(tests::TEST3, funcNumber, 0, -h)) / (2 * h);
+                return (f(tests::TEST3, funcNumber, 0, h) - f(tests::TEST3, funcNumber, 0, 0)) / (h);
             }
         }
     }
@@ -375,25 +375,25 @@ real snu::df(tests test, size_t funcNumber, size_t varNumber, real h)
             switch (varNumber)
             {
             case 0:
-                return (f(tests::TEST4, funcNumber, h, 0) - f(tests::TEST4, funcNumber, -h, 0)) / (2 * h);
+                return (f(tests::TEST4, funcNumber, h, 0) - f(tests::TEST4, funcNumber, 0, 0)) / (h);
             case 1:
-                return (f(tests::TEST4, funcNumber, 0, h) - f(tests::TEST4, funcNumber, 0, -h)) / (2 * h);
+                return (f(tests::TEST4, funcNumber, 0, h) - f(tests::TEST4, funcNumber, 0, 0)) / (h);
             }
         case 1:
             switch (varNumber)
             {
             case 0:
-                return (f(tests::TEST4, funcNumber, h, 0) - f(tests::TEST4, funcNumber, -h, 0)) / (2 * h);
+                return (f(tests::TEST4, funcNumber, h, 0) - f(tests::TEST4, funcNumber, 0, 0)) / (h);
             case 1:
-                return (f(tests::TEST4, funcNumber, 0, h) - f(tests::TEST4, funcNumber, 0, -h)) / (2 * h);
+                return (f(tests::TEST4, funcNumber, 0, h) - f(tests::TEST4, funcNumber, 0, 0)) / (h);
             }
         case 2:
             switch (varNumber)
             {
             case 0:
-                return (f(tests::TEST4, funcNumber, h, 0) - f(tests::TEST4, funcNumber, -h, 0)) / (2 * h);
+                return (f(tests::TEST4, funcNumber, h, 0) - f(tests::TEST4, funcNumber, 0, 0)) / (h);
             case 1:
-                return (f(tests::TEST4, funcNumber, 0, h) - f(tests::TEST4, funcNumber, 0, -h)) / (2 * h);
+                return (f(tests::TEST4, funcNumber, 0, h) - f(tests::TEST4, funcNumber, 0, 0)) / (h);
             }
         }
     }
@@ -406,25 +406,25 @@ real snu::df(tests test, size_t funcNumber, size_t varNumber, real h)
             switch (varNumber)
             {
             case 0:
-                return (f(tests::TEST4, funcNumber, h, 0) - f(tests::TEST4, funcNumber, -h, 0)) / (2 * h);
+                return (f(tests::TEST4, funcNumber, h, 0) - f(tests::TEST4, funcNumber, 0, 0)) / (h);
             case 1:
-                return (f(tests::TEST4, funcNumber, 0, h) - f(tests::TEST4, funcNumber, 0, -h)) / (2 * h);
+                return (f(tests::TEST4, funcNumber, 0, h) - f(tests::TEST4, funcNumber, 0, 0)) / (h);
             }
         case 1:
             switch (varNumber)
             {
             case 0:
-                return (f(tests::TEST4, funcNumber, h, 0) - f(tests::TEST4, funcNumber, -h, 0)) / (2 * h);
+                return (f(tests::TEST4, funcNumber, h, 0) - f(tests::TEST4, funcNumber, 0, 0)) / (h);
             case 1:
-                return (f(tests::TEST4, funcNumber, 0, h) - f(tests::TEST4, funcNumber, 0, -h)) / (2 * h);
+                return (f(tests::TEST4, funcNumber, 0, h) - f(tests::TEST4, funcNumber, 0, 0)) / (h);
             }
         case 2:
             switch (varNumber)
             {
             case 0:
-                return (f(tests::TEST4, funcNumber, h, 0) - f(tests::TEST4, funcNumber, -h, 0)) / (2 * h);
+                return (f(tests::TEST4, funcNumber, h, 0) - f(tests::TEST4, funcNumber, 0, 0)) / (h);
             case 1:
-                return (f(tests::TEST4, funcNumber, 0, h) - f(tests::TEST4, funcNumber, 0, -h)) / (2 * h);
+                return (f(tests::TEST4, funcNumber, 0, h) - f(tests::TEST4, funcNumber, 0, 0)) / (h);
             }
         }
     }
@@ -437,17 +437,17 @@ real snu::df(tests test, size_t funcNumber, size_t varNumber, real h)
             switch (varNumber)
             {
             case 0:
-                return (f(tests::TEST3, funcNumber, h, 0) - f(tests::TEST3, funcNumber, -h, 0)) / (2 * h);
+                return (f(tests::TEST3, funcNumber, h, 0) - f(tests::TEST3, funcNumber, 0, 0)) / (h);
             case 1:
-                return (f(tests::TEST3, funcNumber, 0, h) - f(tests::TEST3, funcNumber, 0, -h)) / (2 * h);
+                return (f(tests::TEST3, funcNumber, 0, h) - f(tests::TEST3, funcNumber, 0, 0)) / (h);
             }
         case 1:
             switch (varNumber)
             {
             case 0:
-                return (f(tests::TEST3, funcNumber, h, 0) - f(tests::TEST3, funcNumber, -h, 0)) / (2 * h);
+                return (f(tests::TEST3, funcNumber, h, 0) - f(tests::TEST3, funcNumber, 0, 0)) / (h);
             case 1:
-                return (f(tests::TEST3, funcNumber, 0, h) - f(tests::TEST3, funcNumber, 0, -h)) / (2 * h);
+                return (f(tests::TEST3, funcNumber, 0, h) - f(tests::TEST3, funcNumber, 0, 0)) / (h);
             }
         }
     }
@@ -509,8 +509,8 @@ void snu::createJacobiMatrix(tests test, methods method)
         // то заполняем матрицу Якоби
         for (size_t i = 0; i < m; i++)
             for (size_t j = 0; j < n; j++)
-                A[i][j] = df(test, i, j);
-                //A[i][j] = df(test, i, j, h);
+                //A[i][j] = df(test, i, j);
+                A[i][j] = df(test, i, j, h);
     }
     // Иначе нужно исключить (m - n) уравнений с минимальными |F|
     else

@@ -13,7 +13,7 @@ int main()
     try {
         snu s(directory);
 
-        s.newton(snu::tests::TEST5, snu::methods::SYMMETRIZATION);
+        s.newton(snu::tests::TEST1, snu::methods::FIND_MIN_F);
 
         return 0;
     }
