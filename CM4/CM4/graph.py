@@ -158,7 +158,7 @@ def main():
   		y.append(dcm(yc))
 
 
-  x1, y1, x2, y2, xg, yg, z, xval = test1()
+  x1, y1, x2, y2, xg, yg, z, xval = test2()
   #x1, y1, x2, y2, xl, yl, xg, yg, z, xval = test4()
   #x1, y1, y2, y3, xg, yg, z, xval = test5()
   #x1, y1, x2, y2, xg, yg, z, xval = test6()
@@ -168,7 +168,7 @@ def main():
   plt.gca().set_aspect('equal')
   ax.plot(x1, y1, label = 'F1', color = 'red', linewidth = 2)
   ax.plot(x2, y2, label = 'F2', color = 'yellow', linewidth = 2)
-  #ax.plot(x1, y3, label = 'F3', color = 'blue', linewidth = 2)
+  #ax.plot(xl, yl, label = 'F3', color = 'blue', linewidth = 2)
   plt.legend(loc = 'upper left')
 
   residual = pl.contourf(xg, yg, z, levels = xval)
