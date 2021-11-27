@@ -16,12 +16,18 @@ int main()
 	
 	//size_t size = 0;		// Размер матрицы Гильберта
 
+
+	//vector<real> v(10), v1(10);
+	//for (size_t i = 0; i < 10; i++)
+	//	v[i] = i + 1;
+	//v1 = s.mult(v);
 	//for (size_t size = 1; size < 14; size++)
 	{
 		//slau s(size, 10000, 1e-15, 0);
 		//s.createHilbertMatrix(size);
 		auto start = high_resolution_clock::now();
-		s.MSGLU(&residual, &itersCount);
+		//s.MSG(&residual, &itersCount);
+		//s.MSGLU(&residual, &itersCount);
 		//s.MSGdiag(&residual, &itersCount);
 		//s.LOS(&residual, &itersCount);
 		//s.LOSLU(&residual, &itersCount);

@@ -173,7 +173,7 @@ std::vector<real> slau::mult(const std::vector<real>& v)
         for (size_t j = ig[i]; j < ig[i + 1]; j++)
         {
             res[i] += ggl[j] * v[jg[j]];
-            res[jg[j]] += ggu[j] * v[i];
+            res[jg[j]] += ggl[j] * v[i];
         }
     }
     return res;
@@ -579,6 +579,34 @@ void slau::createHilbertMatrix(size_t size)
 //==================================================================
 //================= МЕТОД СОПРЯЖЕННЫХ ГРАДИЕНТОВ ===================
 //==================================================================
+
+void slau::MSG(real* residual, size_t* itersCount)
+{
+    // Задаем начальное прилижениие
+    setInitialApprox();
+    r.resize(n);
+
+    real alpha, beta;
+
+    r = F - mult(x);
+    z = r;
+
+    size_t k = 0;
+    real rr = (r * r);
+    for (; k < maxIter && sqrt(rr) / normF >= eps; k++)
+    {
+        alpha = (r * r) / (mult(z) * z);
+        x = x + alpha * z;
+        r = r - alpha * mult(z);
+        beta = (r * r) / rr;
+        rr = r * r;
+        z = r + beta * z;
+    }
+
+    (*residual) = sqrt(rr) / normF;
+    (*itersCount) = k;
+}
+
 
 // Решение СЛАУ путем LU-разложения: прямой ход для транспонированной матрицы
 std::vector<real> slau::LUDirectT(const std::vector<real>& b)

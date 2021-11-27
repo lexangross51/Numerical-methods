@@ -39,6 +39,7 @@ public:
     void LOSLU(real* residual, size_t* itersCount);
     void LOSdiag(real* residual, size_t* itersCount);
 
+    void MSG(real* residual, size_t* itersCount);
     void MSGLU(real* residual, size_t* itersCount);
     void MSGdiag(real* residual, size_t* itersCount);
     
